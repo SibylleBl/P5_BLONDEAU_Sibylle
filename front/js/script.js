@@ -17,7 +17,7 @@ function addProducts(tableau) {
   const laoujinjectemonhtml = document.getElementById("items");
   tableau.forEach((canape) => {
     console.log(laoujinjectemonhtml);
-    const moncanapehtml = `<a href="./product.html?id=42">
+    const moncanapehtml = `<a href="./product.html?id=${canape._id}">
     <article>
     <img src="${canape.imageUrl}" alt="${canape.altTxt}">
     <h3 class="productName">${canape.name}</h3>
