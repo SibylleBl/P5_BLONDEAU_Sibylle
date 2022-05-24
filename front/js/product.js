@@ -1,32 +1,51 @@
-id_article = new URL(window.location.href);
-console.log(new URL(window.location.href));
+pagearticle = new URL(window.location.href);
+console.log(pagearticle);
 id_article = new URL(window.location.href).searchParams.get("id");
 console.log(id_article);
 let url = new URL("http://localhost:3000/api/products.html?id=" + id_article);
 
-// import {productCtrl.getOneProduct} from "../../back/routes/product";
+// const products= []
+fetch(`http://localhost:3000/api/products/${id_article}`)
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    console.log(data);
+    const canape = data;
 
-// // import router from "../../back/routes/product";
+    // const canapePicture = document.getElementsByClassName("item__img");
+    // console.log(
+    //   "🚀 ~ file: product.js ~ line 17 ~ canapePicture",
+    //   canapePicture
+    // );
+    // canapePicture.innerHTML = canape.imageUrl;
+    // console.log("🚀 ~ file: product.js ~ line 22 ~ imageUrl", imageUrl);
+    // L'image ne s'affiche pas (ReferenceError: imageUrl is not defined at product.js:22:63)
 
-// // import("..back/routes/product.js").then((router) => {
-// //   router.get(productCtrl.getOneProduct);
-// // });
+    const laoujinjectemonhtml = document.getElementById("title");
+    laoujinjectemonhtml.innerHTML = canape.name;
 
-// let getOneProduct = {
-//   // "colors": ["Blue", "White", "Black"],
-//   _id: "${id_article}",
-//   name: "${id_article.name}",
-//   price: "${id_article.price}",
-//   Photo: "${id_article.imageUrl}",
-//   description: "${id_article.description}",
-//   descriptionphoto: "${id_article.altTxt}",
-// };
-// console.log(getOneProduct);
-// const oujemetmaphoto = document.getElementsByClassName("item__img");
+    const canapePrice = document.getElementById("price");
+    canapePrice.innerHTML = canape.price;
 
-// function article(elements) {
-//
-//   let photocanape = id_article.getAttribute("imageUrl");
-//   const imagecanape = `<img src="${photocanape.imageUrl}" alt="Photographie d'un canapé">`;
-//   oujemetmaphoto.innerHTML = imagecanape;
-// }
+    const canapeDescription = document.getElementById("description");
+    canapeDescription.innerHTML = canape.description;
+
+    const selectColors = document.getElementById("colors");
+    let optionsdecouleurs = "";
+
+    canape.colors.forEach((color) => {
+      console.log(
+        "🚀 ~ file: product.js ~ line 25 ~ canape.colors.forEach ~ color",
+        color
+      );
+      optionsdecouleurs += `<option value="${color}">${color}</option>`;
+    });
+
+    selectColors.innerHTML += optionsdecouleurs;
+  })
+
+  //affiche la liste des produits dans la console
+  .catch(function (erreur) {
+    console.log(erreur);
+  }); //message d'erreur
