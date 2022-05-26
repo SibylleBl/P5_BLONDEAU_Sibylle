@@ -49,3 +49,21 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
   .catch(function (erreur) {
     console.log(erreur);
   }); //message d'erreur
+
+// target.addEventListener(type, listener [, options]);
+
+// ClickButton = new EventTarget(document.getElementById("addToCart")); //que mettre dedans?
+// console.log("🚀 ~ file: product.js ~ line 56 ~ ClickButton", ClickButton);
+// // ClickButton.addEventListener();
+
+const EventTarget = function () {
+  this.listeners = {};
+};
+
+EventTarget.prototype.listeners = null;
+EventTarget.prototype.addEventListener = function (type, callback) {
+  if (!(type in this.listeners)) {
+    this.listeners[type] = [];
+  }
+  this.listeners[type].push(callback);
+};
