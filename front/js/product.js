@@ -50,20 +50,37 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
     console.log(erreur);
   }); //message d'erreur
 
+// ajout d'un event lorque je clique sur le bouton "ajouter au panier" :
+clickButton = document.getElementById("addToCart");
+console.log("🚀 ~ file: product.js ~ line 54 ~ clickButton", clickButton);
+
+clickButton.addEventListener("click", choix);
+
+// function nouvelEvent() {
+//   console.log("coucou");
+// }
+
+//Récuperer la valeur choisie dans le sélecteur des couleurs:
+function choix(colors) {
+  selectElement = document.getElementById(colors);
+
+  console.log(colors);
+}
+
 // target.addEventListener(type, listener [, options]);
 
 // ClickButton = new EventTarget(document.getElementById("addToCart")); //que mettre dedans?
 // console.log("🚀 ~ file: product.js ~ line 56 ~ ClickButton", ClickButton);
 // // ClickButton.addEventListener();
 
-const EventTarget = function () {
-  this.listeners = {};
-};
+// const EventTarget = function () {
+//   this.listeners = {};
+// };
 
-EventTarget.prototype.listeners = null;
-EventTarget.prototype.addEventListener = function (type, callback) {
-  if (!(type in this.listeners)) {
-    this.listeners[type] = [];
-  }
-  this.listeners[type].push(callback);
-};
+// EventTarget.prototype.listeners = null;
+// EventTarget.prototype.addEventListener = function (type, callback) {
+//   if (!(type in this.listeners)) {
+//     this.listeners[type] = [];
+//   }
+//   this.listeners[type].push(callback);
+// };
