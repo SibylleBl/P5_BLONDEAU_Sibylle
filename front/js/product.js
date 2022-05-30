@@ -43,29 +43,54 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
     });
 
     selectColors.innerHTML += optionsdecouleurs;
-  })
 
-  //affiche la liste des produits dans la console
-  .catch(function (erreur) {
-    console.log(erreur);
-  }); //message d'erreur
+    // ajout d'un event lorque je clique sur le bouton "ajouter au panier" :
+    clickButton = document.getElementById("addToCart");
+    console.log("🚀 ~ file: product.js ~ line 54 ~ clickButton", clickButton);
 
-// ajout d'un event lorque je clique sur le bouton "ajouter au panier" :
-clickButton = document.getElementById("addToCart");
-console.log("🚀 ~ file: product.js ~ line 54 ~ clickButton", clickButton);
+    clickButton.addEventListener("click", choixCouleur);
+    clickButton.addEventListener("click", choixQuantite);
 
-clickButton.addEventListener("click", choix);
+    // function nouvelEvent() {
+    //   console.log("coucou");
+    // }
 
-// function nouvelEvent() {
-//   console.log("coucou");
+    //Récuperer la valeur choisie dans le sélecteur des couleurs:
+    function choixCouleur(colors) {
+      selectColor = document.getElementById("colors");
+      value = selectColor.options[selectColor.selectedIndex].value;
+      console.log(value);
+    }
+
+    function choixQuantite(quantity) {
+      selectQuant = document.getElementById("quantity").value;
+      console.log(selectQuant);
+    }
+  });
+
+//   //affiche la liste des produits dans la console
+//   .catch(function (erreur) {
+//     console.log(erreur);
+//   }); //message d'erreur
+
+// // ajout d'un event lorque je clique sur le bouton "ajouter au panier" :
+// clickButton = document.getElementById("addToCart");
+// console.log("🚀 ~ file: product.js ~ line 54 ~ clickButton", clickButton);
+
+// clickButton.addEventListener("click", choix);
+
+// // function nouvelEvent() {
+// //   console.log("coucou");
+// // }
+
+// //Récuperer la valeur choisie dans le sélecteur des couleurs:
+// function choix(colors) {
+//   selectElement = document.getElementById(colors);
+
+//   console.log(colors);
 // }
-
-//Récuperer la valeur choisie dans le sélecteur des couleurs:
-function choix(colors) {
-  selectElement = document.getElementById(colors);
-
-  console.log(colors);
-}
+// selectElement = document.getElementById(colors);
+// selectElement.addEventListener("click", choix);
 
 // target.addEventListener(type, listener [, options]);
 
