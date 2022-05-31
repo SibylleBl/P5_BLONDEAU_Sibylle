@@ -13,14 +13,11 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
     console.log(data);
     const canape = data;
 
-    // const canapePicture = document.getElementsByClassName("item__img");
-    // console.log(
-    //   "🚀 ~ file: product.js ~ line 17 ~ canapePicture",
-    //   canapePicture
-    // );
-    // canapePicture.innerHTML = canape.imageUrl;
-    // console.log("🚀 ~ file: product.js ~ line 22 ~ imageUrl", imageUrl);
-    // L'image ne s'affiche pas (ReferenceError: imageUrl is not defined at product.js:22:63)
+    const canapePicture = document.getElementsByClassName("item__img");
+    `<img src="${canape.imageUrl}" alt="Photographie d'un canapé"></img>`;
+    canapePicture[0].innerHTML = `<img src="${canape.imageUrl}" alt="${canape.altTxt}"></img>`;
+
+    //L'image ne s'affiche pas (ReferenceError: imageUrl is not defined at product.js:22:63)
 
     const laoujinjectemonhtml = document.getElementById("title");
     laoujinjectemonhtml.innerHTML = canape.name;
@@ -48,64 +45,30 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
     clickButton = document.getElementById("addToCart");
     console.log("🚀 ~ file: product.js ~ line 54 ~ clickButton", clickButton);
 
-    clickButton.addEventListener("click", choixCouleur);
-    clickButton.addEventListener("click", choixQuantite);
-
-    // function nouvelEvent() {
-    //   console.log("coucou");
-    // }
+    // clickButton.addEventListener("click", choixCouleur);
+    // clickButton.addEventListener("click", choixQuantite);
 
     //Récuperer la valeur choisie dans le sélecteur des couleurs:
-    function choixCouleur(colors) {
+    function choixCouleur() {
       selectColor = document.getElementById("colors");
-      value = selectColor.options[selectColor.selectedIndex].value;
+      value = selectColor.value;
       console.log(value);
+      return value;
     }
 
-    function choixQuantite(quantity) {
+    //Récuperer la quantité choisie dans l'input du nombre d'article:
+    function choixQuantite() {
       selectQuant = document.getElementById("quantity").value;
       console.log(selectQuant);
+      return selectQuant;
     }
+    function clickChoixDuClient() {
+      const choixDuClient = {
+        id: id_article,
+        couleur: choixCouleur(),
+        quantite: choixQuantite(),
+      };
+      console.log(choixDuClient);
+    }
+    clickButton.addEventListener("click", clickChoixDuClient);
   });
-
-//   //affiche la liste des produits dans la console
-//   .catch(function (erreur) {
-//     console.log(erreur);
-//   }); //message d'erreur
-
-// // ajout d'un event lorque je clique sur le bouton "ajouter au panier" :
-// clickButton = document.getElementById("addToCart");
-// console.log("🚀 ~ file: product.js ~ line 54 ~ clickButton", clickButton);
-
-// clickButton.addEventListener("click", choix);
-
-// // function nouvelEvent() {
-// //   console.log("coucou");
-// // }
-
-// //Récuperer la valeur choisie dans le sélecteur des couleurs:
-// function choix(colors) {
-//   selectElement = document.getElementById(colors);
-
-//   console.log(colors);
-// }
-// selectElement = document.getElementById(colors);
-// selectElement.addEventListener("click", choix);
-
-// target.addEventListener(type, listener [, options]);
-
-// ClickButton = new EventTarget(document.getElementById("addToCart")); //que mettre dedans?
-// console.log("🚀 ~ file: product.js ~ line 56 ~ ClickButton", ClickButton);
-// // ClickButton.addEventListener();
-
-// const EventTarget = function () {
-//   this.listeners = {};
-// };
-
-// EventTarget.prototype.listeners = null;
-// EventTarget.prototype.addEventListener = function (type, callback) {
-//   if (!(type in this.listeners)) {
-//     this.listeners[type] = [];
-//   }
-//   this.listeners[type].push(callback);
-// };
