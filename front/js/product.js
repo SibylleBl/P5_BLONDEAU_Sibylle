@@ -3,8 +3,17 @@ id_article = new URL(window.location.href).searchParams.get("id");
 let url = new URL("http://localhost:3000/api/products.html?id=" + id_article);
 
 function getItemsFromLocalStorage() {
-  let produitTableau = localStorage.getItem("produit"); // m'affiche le contenu du panier
-  console.log(produitTableau);
+  let produitPanier = JSON.parse(localStorage.getItem("produit")); // m'affiche le contenu du panier
+  // console.log(produitPanier);
+
+  if (produitPanier == null) {
+    // si mon produit tableau est null, définir produitPanier en tableau
+    produitPanier = []; //création du tableau
+  }
+
+  produitPanier.forEach((produit) => console.log(produit));
+
+  return produitPanier;
 }
 
 fetch(`http://localhost:3000/api/products/${id_article}`)
@@ -57,27 +66,34 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
     }
 
     // je regroupe les différents choix du client au même endroit:
-    function clickChoixDuClient() {
-      const choixDuClient = {
-        id: id_article, //ref du produit
-        couleur: choixCouleur(), // couleur choisie
-        quantite: choixQuantite(), // quantité choisie
-      };
-      // console.log(choixDuClient);
-    }
+    let choixDuClient = {
+      id: id_article, //ref du produit
+      couleur: choixCouleur(), // couleur choisie
+      quantite: choixQuantite(), // quantité choisie
+    };
+
+    let monTableauProduit = [];
+    monTableauProduit.push(choixDuClient);
+    console.log(monTableauProduit);
 
     function setItemsToLocalStorage() {
-      const monObjetQueJeConvertisEnString = JSON.stringify(clickChoixDuClient);
-      console.log(monObjetQueJeConvertisEnString);
-      let envoiProduit = localStorage.setItem("produit", clickChoixDuClient);
-      console.log(envoiProduit);
+      // const monObjetQueJeConvertisEnString = JSON.stringify(
+      //   clickChoixDuClient()
+      // );
+      // console.log(monObjetQueJeConvertisEnString);
+      let envoiProduit = localStorage.setItem(
+        "produit",
+        JSON.stringify(monTableauProduit)
+      );
+      // console.log(envoiProduit);
+
+      return envoiProduit;
     }
 
-    clickButton.addEventListener("click", clickChoixDuClient);
+    monTableauProduit = getItemsFromLocalStorage();
+
+    clickButton.addEventListener("click", monTableauProduit);
 
     //j'appelle la fonction pour afficher le contenu du panier
     getItemsFromLocalStorage();
-
-    // j'appelle la fonction pour envoyer un article dans le panier
-    setItemsToLocalStorage();
   });
