@@ -15,7 +15,7 @@ function getItemsFromLocalStorage() {
 
   return produitPanier;
 }
-const monTableauProduits = getItemsFromLocalStorage();
+let monTableauProduits = getItemsFromLocalStorage();
 
 function setItemsToLocalStorage(produits) {
   let envoiProduit = localStorage.setItem("produit", JSON.stringify(produits));
@@ -82,39 +82,100 @@ function choixQuantite() {
 
 clickButton = document.getElementById("addToCart");
 
-clickButton.addEventListener("click", clickChoixDuClient);
+clickButton.addEventListener("click", clickAjoutPanier);
 
 // je regroupe les différents choix du client au même endroit:
-function clickChoixDuClient() {
-  const choixDuClient = {
+function clickAjoutPanier() {
+  const productToAdd = {
     id: id_article, //ref du produit
     couleur: choixCouleur(), // couleur choisie
     quantite: choixQuantite(), // quantité choisie
   };
-  gereAjoutPanier(choixDuClient);
-}
-
-function gereAjoutPanier(DesCanapes) {
-  // est ce que ce canapé est déjà dans mon panier ?
-  monTableauProduits = DesCanapes.filter(function (UnCanape) {
-    if (UnCanape.id === id_article) return true;
-    return false;
-  });
-  //pas encore dans mon panier
-  monTableauProduits.push(canap);
-  // console.log(monTableauProduits);
-
-  //déjà dans mon panier
-  monTableauProduits.map(function (produit) {
-    if (produit.id === 2) {
-      return {
-        id: produit.id, //ref du produit
-        couleur: produit.couleur, // couleur choisie
-        quantite: produit.quantite * 2, // quantité choisie
-      };
+  //fonction qui me dit si un canapé existe déjà dans mon panier:
+  function checkProductInCart(productToAdd) {
+    let local = getItemsFromLocalStorage(monTableauProduits);
+    for (let i = 0; i < local.length; i++) {
+      if (
+        local[i].id == productToAdd.id &&
+        local[i].couleur == productToAdd.couleur
+      ) {
+        return true;
+      }
     }
-    return produit;
-  });
+    return false;
+  }
 
+  const isProductInCart = checkProductInCart(productToAdd);
+
+  if (isProductInCart) {
+    monTableauProduits = monTableauProduits.map(function (produit) {
+      if (produit.id === productToAdd.id) {
+        return {
+          id: produit.id, //ref du produit
+          couleur: produit.couleur, // couleur choisie
+          quantite:
+            parseInt(productToAdd.quantite, 10) +
+            parseInt(produit.quantite, 10), // quantité choisie
+        };
+      }
+      return produit;
+    });
+  } else {
+    monTableauProduits.push(productToAdd);
+  }
   setItemsToLocalStorage(monTableauProduits);
+
+  monTableauProduits = monTableauProduits.filter(function (produit) {
+    console.log("🚀 ~ file: product.js ~ line 129 ~ produit", produit);
+    return produit.id !== "415b7cacb65d43b2b5c1ff70f3393ad1";
+  });
 }
+
+// function gereAjoutPanier() {
+//   if (isProductInCart) {
+//     monTableauProduits.map(function (produit) {});
+//   } else {
+//     monTableauProduits.push(productToAdd);
+//   }
+// }
+
+// function gereAjoutPanier(canap) {
+//   monTableauProduits.push(canap);
+//   // console.log(monTableauProduits);
+
+//   //déjà dans mon panier
+//   monTableauProduits.map(function (produit) {
+//     if (produit.id === 2) {
+//       return {
+//         id: produit.id, //ref du produit
+//         couleur: produit.couleur, // couleur choisie
+//         quantite: produit.quantite * 2, // quantité choisie
+//       };
+//     }
+//     return produit;
+//   });
+
+// Vérifications:
+// vérification ajout produit identique
+
+// je regarde ce que j'ai dans mon local storage
+// function checkProductInCart() {
+//   for (let i = 0; i < local.length; i++) {
+//     // de base: je définie i (élément du tableau) avec une valeur par défaut à 0,
+//     //pour i qui est inférieur à la taille du tableau, j'exécute i.
+
+//     // la quantité
+//     let quantiteCanape = local[i].quantite;
+//     productToAdd.quantite = parseInt(productToAdd.quantite, 10); //idem pour la nouvelle quantité
+//     if (
+//       local[i].id == productToAdd.id &&
+//       local[i].couleur == productToAdd.couleur
+//     ) {
+//       //si l'id et la couleur que le client choisit correspond à l'id et la couleur de l'item dans le local
+//       return (quantiteCanape =
+//         parseInt(local[i].quantite, 10) +
+//         parseInt(productToAdd.quantite, 10));
+//     }
+//     return false;
+//   }
+// }

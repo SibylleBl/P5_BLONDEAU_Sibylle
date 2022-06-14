@@ -16,7 +16,7 @@ fetch("http://localhost:3000/api/products/")
 function addProducts(tableau) {
   const laoujinjectemonhtml = document.getElementById("items");
   tableau.forEach((canape) => {
-    console.log(laoujinjectemonhtml);
+    // console.log(laoujinjectemonhtml);
     const moncanapehtml = `<a href="./product.html?id=${canape._id}">
     <article>
     <img src="${canape.imageUrl}" alt="${canape.altTxt}">
