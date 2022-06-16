@@ -55,8 +55,8 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
     selectColors.innerHTML += optionsdecouleurs;
 
     // ajout d'un event lorque je clique sur le bouton "ajouter au panier" :
-    // clickButton = document.getElementById("addToCart");
-    // console.log("🚀 ~ file: product.js ~ line 54 ~ clickButton", clickButton);
+    // addToCart = document.getElementById("addToCart");
+    // console.log("🚀 ~ file: product.js ~ line 54 ~ addToCart", addToCart);
 
     // let monTableauProduits = [];
     // console.log(
@@ -80,9 +80,9 @@ function choixQuantite() {
   return selectQuant;
 }
 
-clickButton = document.getElementById("addToCart");
+addToCart = document.getElementById("addToCart");
 
-clickButton.addEventListener("click", clickAjoutPanier);
+addToCart.addEventListener("click", clickAjoutPanier);
 
 // je regroupe les différents choix du client au même endroit:
 function clickAjoutPanier() {
@@ -96,8 +96,8 @@ function clickAjoutPanier() {
     let local = getItemsFromLocalStorage(monTableauProduits);
     for (let i = 0; i < local.length; i++) {
       if (
-        local[i].id == productToAdd.id &&
-        local[i].couleur == productToAdd.couleur
+        local[i].id === productToAdd.id &&
+        local[i].couleur === productToAdd.couleur
       ) {
         return true;
       }
@@ -109,7 +109,10 @@ function clickAjoutPanier() {
 
   if (isProductInCart) {
     monTableauProduits = monTableauProduits.map(function (produit) {
-      if (produit.id === productToAdd.id) {
+      if (
+        produit.id === productToAdd.id &&
+        produit.couleur === productToAdd.couleur
+      ) {
         return {
           id: produit.id, //ref du produit
           couleur: produit.couleur, // couleur choisie
@@ -124,58 +127,12 @@ function clickAjoutPanier() {
     monTableauProduits.push(productToAdd);
   }
   setItemsToLocalStorage(monTableauProduits);
-
-  monTableauProduits = monTableauProduits.filter(function (produit) {
-    console.log("🚀 ~ file: product.js ~ line 129 ~ produit", produit);
-    return produit.id !== "415b7cacb65d43b2b5c1ff70f3393ad1";
-  });
 }
 
-// function gereAjoutPanier() {
-//   if (isProductInCart) {
-//     monTableauProduits.map(function (produit) {});
-//   } else {
-//     monTableauProduits.push(productToAdd);
-//   }
-// }
+// ------------------------------------------------------- gestion du bouton supprimer l'article
 
-// function gereAjoutPanier(canap) {
-//   monTableauProduits.push(canap);
-//   // console.log(monTableauProduits);
+let removeToCartButton = document.getElementById("removeToCart"); // je trouve l'élément HTML sur lequel je vais cliquer
 
-//   //déjà dans mon panier
-//   monTableauProduits.map(function (produit) {
-//     if (produit.id === 2) {
-//       return {
-//         id: produit.id, //ref du produit
-//         couleur: produit.couleur, // couleur choisie
-//         quantite: produit.quantite * 2, // quantité choisie
-//       };
-//     }
-//     return produit;
-//   });
+//   function deleteItems(itemToDelete) {
 
-// Vérifications:
-// vérification ajout produit identique
-
-// je regarde ce que j'ai dans mon local storage
-// function checkProductInCart() {
-//   for (let i = 0; i < local.length; i++) {
-//     // de base: je définie i (élément du tableau) avec une valeur par défaut à 0,
-//     //pour i qui est inférieur à la taille du tableau, j'exécute i.
-
-//     // la quantité
-//     let quantiteCanape = local[i].quantite;
-//     productToAdd.quantite = parseInt(productToAdd.quantite, 10); //idem pour la nouvelle quantité
-//     if (
-//       local[i].id == productToAdd.id &&
-//       local[i].couleur == productToAdd.couleur
-//     ) {
-//       //si l'id et la couleur que le client choisit correspond à l'id et la couleur de l'item dans le local
-//       return (quantiteCanape =
-//         parseInt(local[i].quantite, 10) +
-//         parseInt(productToAdd.quantite, 10));
-//     }
-//     return false;
-//   }
 // }
