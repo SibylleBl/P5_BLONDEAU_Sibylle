@@ -36,36 +36,21 @@ function deleteItem() {
 
   for (let j = 0; j < boutons_supprimer.length; j++) {
     boutons_supprimer[j].addEventListener("click", (e) => {
-      console.log(boutons_supprimer.length);
       // je récupère l'id et la couleur du produit à supprimer (où je clique)
       let idToDelete = productInLocal[j].id;
-      console.log(
-        "🚀 ~ file: cart.js ~ line 44 ~ boutons_supprimer[j].addEventListener ~ idToDelete",
-        idToDelete
-      );
-      let couleurToDelete = productInLocal[j].couleur;
-      console.log(
-        "🚀 ~ file: cart.js ~ line 49 ~ boutons_supprimer[j].addEventListener ~ couleurToDelete",
-        couleurToDelete
-      );
+      let colorToDelete = productInLocal[j].couleur;
+
       // let mySelectProduct = idToDelete + " " + couleurToDelete;
       // je compare l'id et la couleur cliqué avec mon local storage
       const compareproduct = productInLocal.find(
         (element) =>
-          element.id == idToDelete && element.couleur == couleurToDelete
-      );
-      console.log(
-        "🚀 ~ file: cart.js ~ line 54 ~ boutons_supprimer[j].addEventListener ~ compareproduct",
-        compareproduct
+          element.id == idToDelete && element.couleur == colorToDelete
       );
 
       productInLocal = productInLocal.filter(
         (product) => product != compareproduct
       );
-      console.log(
-        "🚀 ~ file: cart.js ~ line 63 ~ boutons_supprimer[j].addEventListener ~ productInLocal",
-        productInLocal
-      );
+
       productInLocal = productInLocal.filter((item) => item != compareproduct); // je veux tout les items qui ne sont pas celui que je clique
       localStorage.setItem("produit", JSON.stringify(productInLocal)); // mise à jour du local storage
       window.location.href = "cart.html"; // permet de recharger la page
@@ -74,8 +59,43 @@ function deleteItem() {
 }
 
 deleteItem();
-// for (j=0; j <boutons_supprimer.length; j++) {
 
-// }
+// ----------------------------------------------------------- modifier la quantité d'un produit
 
-// ---------------------------- création d'une boucle et de l'event au clic
+function modifyQuantity() {
+  let boutons_quantite = document.querySelectorAll(".itemQuantity");
+
+  // même début que pour la suppression d'un objet (trouver et comparer les ids et couleurs pour sélectionner le produit voulu)
+
+  for (let k = 0; k < boutons_quantite.length; k++) {
+    boutons_quantite[k].addEventListener("click", (e) => {
+      let idToModify = productInLocal[k].id;
+      console.log(
+        "🚀 ~ file: cart.js ~ line 71 ~ boutons_quantite[k].addEventListener ~ idToModify",
+        idToModify
+      );
+      let colorToModify = productInLocal[k].couleur;
+      console.log(
+        "🚀 ~ file: cart.js ~ line 72 ~ boutons_quantite[k].addEventListener ~ colorToModify",
+        colorToModify
+      );
+
+      const compareproduct = productInLocal.find(
+        (element) =>
+          element.id == idToModify && element.couleur == colorToModify
+      );
+      console.log(
+        "🚀 ~ file: cart.js ~ line 87 ~ boutons_quantite[k].addEventListener ~ compareproduct",
+        compareproduct
+      );
+      // je rédéfinie la quantité du produit sélectionné
+      compareproduct.quantite = boutons_quantite[k].value;
+      console.log(compareproduct.quantite);
+
+      // je met à jour le local storage
+      localStorage.setItem("produit", JSON.stringify(productInLocal));
+    });
+  }
+}
+
+modifyQuantity();
