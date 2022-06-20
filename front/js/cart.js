@@ -33,24 +33,15 @@ for (i = 0; i < productInLocal.length; i += 1) {
 // ------------------------------------------------------- gestion du bouton supprimer l'article
 function deleteItem() {
   let boutons_supprimer = document.querySelectorAll(".deleteItem"); // crée un tableau
+
   for (j = 0; j < boutons_supprimer.length; j++) {
     boutons_supprimer[j].addEventListener("click", (e) => {
       console.log("coucou");
+      console.log(productInLocal[2].id);
+      console.log(e);
       // je récupère l'id et la couleur du produit à supprimer (où je clique)
-      let idToDelete = productInLocal[j].id;
-      console.log(
-        "🚀 ~ file: cart.js ~ line 42 ~ boutons_supprimer[j].addEventListener ~ productInLocal",
-        productInLocal
-      );
-      console.log(
-        "🚀 ~ file: cart.js ~ line 42 ~ boutons_supprimer[j].addEventListener ~ idToDelete",
-        idToDelete
-      );
-      let couleurToDelete = productInLocal[j].couleur;
-      console.log(
-        "🚀 ~ file: cart.js ~ line 43 ~ boutons_supprimer[j].addEventListener ~ couleurToDelete",
-        couleurToDelete
-      );
+      // let idToDelete = productInLocal[j].id;
+      // let couleurToDelete = productInLocal[j].couleur;
     });
   }
 }
