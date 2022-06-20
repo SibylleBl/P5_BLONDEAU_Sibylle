@@ -4,9 +4,8 @@ fetch("http://localhost:3000/api/products/")
     return response.json();
   })
   .then(function (data) {
-    console.log(data);
-    // products=data
     addProducts(data);
+    console.log(data);
   }) //affiche la liste des produits dans la console
   .catch(function (erreur) {
     console.log(erreur);

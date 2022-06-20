@@ -1,44 +1,63 @@
-let produitLocalStorage = JSON.parse(localStorage.getItem("produit"));
+let productInLocal = JSON.parse(localStorage.getItem("produit"));
 
-if (produitLocalStorage) {
-  for (let i = 0; i < produitLocalStorage.length; i++) {
-    let baseCart = document.getElementById("cart__items");
-    let baseCartCode = `<article class="cart__item" data-id="${produitLocalStorage.id}" data-color="${produitLocalStorage.couleur}">
-    </aticle>`;
-    console.log(baseCartCode);
-    baseCart.innerHTML += baseCartCode;
+for (i = 0; i < productInLocal.length; i += 1) {
+  document.getElementById(
+    "cart__items"
+  ).innerHTML += `<article class="cart__item" data-id="${
+    productInLocal[i].id
+  }" data-color="${productInLocal[i].couleur}">
+  <div class="cart__item__img">
+    
+</div>
+<div class="cart__item__content">
+<div class="cart__item__content__description">
+  <h2>${productInLocal[i].nom}</h2>
+  <p>${productInLocal[i].couleur}</p>
+ <p>${productInLocal[i].prix + "€"}</p>
+</div>
+<div class="cart__item__content__settings">
+   <div class="cart__item__content__settings__quantity">
+    <p>Qté : </p>
+    <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${
+      productInLocal[i].quantite
+    }">
+  </div>
+  <div class="cart__item__content__settings__delete">
+    <p class="deleteItem">Supprimer</p>
+  </div>
+ </div>
+</div>
+</article>`;
+}
 
-    let imgCart = document.getElementsByClassName("cart__item__img");
-    let imgCartCode = `<img src="${produitLocalStorage.imageUrl}" alt="${produitLocalStorage.altTxt}">`;
-    console.log("🚀 ~ file: cart.js ~ line 16 ~ imgCartCode", imgCartCode);
-    imgCart.innerHTML += imgCartCode;
+// ------------------------------------------------------- gestion du bouton supprimer l'article
+function deleteItem() {
+  let boutons_supprimer = document.querySelectorAll(".deleteItem"); // crée un tableau
+  for (j = 0; j < boutons_supprimer.length; j++) {
+    boutons_supprimer[j].addEventListener("click", (e) => {
+      console.log("coucou");
+      // je récupère l'id et la couleur du produit à supprimer (où je clique)
+      let idToDelete = productInLocal[j].id;
+      console.log(
+        "🚀 ~ file: cart.js ~ line 42 ~ boutons_supprimer[j].addEventListener ~ productInLocal",
+        productInLocal
+      );
+      console.log(
+        "🚀 ~ file: cart.js ~ line 42 ~ boutons_supprimer[j].addEventListener ~ idToDelete",
+        idToDelete
+      );
+      let couleurToDelete = productInLocal[j].couleur;
+      console.log(
+        "🚀 ~ file: cart.js ~ line 43 ~ boutons_supprimer[j].addEventListener ~ couleurToDelete",
+        couleurToDelete
+      );
+    });
   }
 }
 
-// function addCart(produitLocalStorage) {
-//   const locCart = document.getElementById("cart__items");
-//   produitLocalStorage.array.forEach((locCart) => {
-//     const aCart = `<produitLocalStorage class="cart__item" data-id="${produitLocalStorage.id}" data-color="${produitLocalStorage.color}">
-//                         <div class="cart__item__img">
-//                            <img src="${produitLocalStorage.imageUrl}" alt="${produitLocalStorage.altTxt}">
-//                         </div>
-//                        <div class="cart__item__content">
-//                           <div class="cart__item__content__description">
-//                             <h2>Nom du produit</h2>
-//                             <p>Vert</p>
-//                             <p>42,00 €</p>
-//                           </div>
-//                           <div class="cart__item__content__settings">
-//                             <div class="cart__item__content__settings__quantity">
-//                               <p>Qté : </p>
-//                               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-//                             </div>
-//                             <div class="cart__item__content__settings__delete">
-//                               <p class="deleteItem">Supprimer</p>
-//                             </div>
-//                           </div>
-//                         </div>
-//                       </produitLocalStorage>`;
-//     locCart.innerHTML += aCart;
-//   });
+deleteItem();
+// for (j=0; j <boutons_supprimer.length; j++) {
+
 // }
+
+// ---------------------------- création d'une boucle et de l'event au clic
