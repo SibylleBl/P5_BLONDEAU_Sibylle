@@ -1,13 +1,21 @@
 let productInLocal = JSON.parse(localStorage.getItem("produit"));
+let pictureInLocal = localStorage.getItem("imageUrl");
 
-for (i = 0; i < productInLocal.length; i += 1) {
+// si le panier est vide
+if (productInLocal.length === 0) {
   document.getElementById(
     "cart__items"
-  ).innerHTML += `<article class="cart__item" data-id="${
-    productInLocal[i].id
-  }" data-color="${productInLocal[i].couleur}">
+  ).innerHTML += `<p>Votre panier est vide</p>`;
+} else {
+  //sinon création de la carte produit
+  for (i = 0; i < productInLocal.length; i += 1) {
+    document.getElementById(
+      "cart__items"
+    ).innerHTML += `<article class="cart__item" data-id="${
+      productInLocal[i].id
+    }" data-color="${productInLocal[i].couleur}">
   <div class="cart__item__img">
-    
+  <img src="${pictureInLocal}" alt="Photographie d'un canapé">
 </div>
 <div class="cart__item__content">
 <div class="cart__item__content__description">
@@ -28,9 +36,10 @@ for (i = 0; i < productInLocal.length; i += 1) {
  </div>
 </div>
 </article>`;
+  }
 }
 
-// ------------------------------------------------------- gestion du bouton supprimer l'article
+// ---------------------------- gestion du bouton supprimer l'article
 function deleteItem() {
   let boutons_supprimer = document.querySelectorAll(".deleteItem"); // crée un tableau
 
@@ -60,7 +69,7 @@ function deleteItem() {
 
 deleteItem();
 
-// ----------------------------------------------------------- modifier la quantité d'un produit
+// --------------------------- modifier la quantité d'un produit
 
 function modifyQuantity() {
   let boutons_quantite = document.querySelectorAll(".itemQuantity");
@@ -70,32 +79,69 @@ function modifyQuantity() {
   for (let k = 0; k < boutons_quantite.length; k++) {
     boutons_quantite[k].addEventListener("click", (e) => {
       let idToModify = productInLocal[k].id;
-      console.log(
-        "🚀 ~ file: cart.js ~ line 71 ~ boutons_quantite[k].addEventListener ~ idToModify",
-        idToModify
-      );
       let colorToModify = productInLocal[k].couleur;
-      console.log(
-        "🚀 ~ file: cart.js ~ line 72 ~ boutons_quantite[k].addEventListener ~ colorToModify",
-        colorToModify
-      );
 
       const compareproduct = productInLocal.find(
         (element) =>
           element.id == idToModify && element.couleur == colorToModify
       );
-      console.log(
-        "🚀 ~ file: cart.js ~ line 87 ~ boutons_quantite[k].addEventListener ~ compareproduct",
-        compareproduct
-      );
-      // je rédéfinie la quantité du produit sélectionné
+
+      // je rédéfini la quantité du produit sélectionné
       compareproduct.quantite = boutons_quantite[k].value;
-      console.log(compareproduct.quantite);
 
       // je met à jour le local storage
       localStorage.setItem("produit", JSON.stringify(productInLocal));
+      window.location.href = "cart.html";
     });
   }
 }
 
 modifyQuantity();
+
+// ---------------------------- calcul prix et quantités
+// déclaration de la variable pour pouvoir y mettre les prix et quant qui sont présents dans le panier
+let prixTotalCalcul = [];
+let quantTotalCalcul = [];
+
+for (let l = 0; l < productInLocal.length; l++) {
+  let prixProduitDansLePanier = parseInt(productInLocal[l].prix);
+  let quantProduitDansLePanier = parseInt(productInLocal[l].quantite);
+
+  // mettre les prix du panier dans le tableau "prixTotalCalcul" / idem pour quant
+  prixTotalCalcul.push(prixProduitDansLePanier);
+  // console.log(
+  //   "🚀 ~ file: cart.js ~ line 111 ~ prixTotalCalcul",
+  //   prixTotalCalcul
+  // );
+  quantTotalCalcul.push(quantProduitDansLePanier);
+  // console.log(
+  //   "🚀 ~ file: cart.js ~ line 112 ~ quantTotalCalcul",
+  //   quantTotalCalcul
+  // );
+
+  // additionner les prix et les quantités dans les tableaux dédiés avec la méthode reduce
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+  const prixTotal = prixTotalCalcul.reduce(reducer, 0);
+  // console.log("🚀 ~ file: cart.js ~ line 125 ~ prixTotal", prixTotal);
+  const quantTotal = quantTotalCalcul.reduce(reducer, 0);
+  // console.log("🚀 ~ file: cart.js ~ line 127 ~ quantTotal", quantTotal);
+
+  // afficher au bon endroit dans le html
+  const totalPrice = document.getElementById("totalPrice");
+  const totalQuant = document.getElementById("totalQuantity");
+
+  totalPrice.innerHTML = prixTotal;
+  totalQuant.innerHTML = quantTotal;
+}
+
+// for (let l = 0; l < boutons_quantite.length; l++) {
+//   let allQuant = document.querySelectorAll(".itemQuantity");
+//   let eachQuant = productInLocal[l].quantite;
+
+//   allQuant.reduce(
+//     (accumulateur, valeurCourante) => accumulateur + valeurCourante;
+//   );
+// }
+
+// ---------------------------- passer la commande

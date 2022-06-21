@@ -26,6 +26,7 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
 
     const canapePicture = document.getElementsByClassName("item__img");
     canapePicture[0].innerHTML = `<img src="${canape.imageUrl}" alt="${canape.altTxt}"></img>`;
+    localStorage.setItem("imageUrl", canape.imageUrl);
 
     const canapeName = document.getElementById("title");
     canapeName.innerHTML = canape.name;
@@ -68,12 +69,12 @@ function priceProduct() {
   return selectPrice;
 }
 
-function pictureProduct() {
-  let src = document.getElementsByClassName("item__img").src;
-  let selectImg = `<img src="${src}" alt="${"coucou"}"></img>`;
+// function pictureProduct() {
+//   let localImgUrl = localStorage.getItem("imageUrl");
+//   let linkImage = document.getElementsByClassName("item_img");
 
-  return selectImg;
-}
+//   return linkImage;
+// }
 
 addToCart = document.getElementById("addToCart");
 addToCart.addEventListener("click", clickAjoutPanier);
@@ -81,12 +82,12 @@ addToCart.addEventListener("click", clickAjoutPanier);
 // je regroupe les différents choix du client au même endroit:
 function clickAjoutPanier() {
   const productToAdd = {
-    id: id_article, //ref du produit
-    couleur: choixCouleur(), // couleur choisie
-    quantite: choixQuantite(), // quantité choisie
+    id: id_article,
+    couleur: choixCouleur(),
+    quantite: choixQuantite(),
     nom: nameProduct(),
     prix: priceProduct(),
-    image: pictureProduct(),
+    // image: pictureProduct(),
   };
   //fonction qui me dit si un canapé existe déjà dans mon panier:
   function checkProductInCart(productToAdd) {
@@ -111,13 +112,13 @@ function clickAjoutPanier() {
         produit.couleur === productToAdd.couleur
       ) {
         return {
-          id: produit.id, //ref du produit
-          couleur: produit.couleur, // couleur choisie
+          id: produit.id,
+          couleur: produit.couleur,
           nom: produit.nom,
           prix: produit.prix,
           quantite:
             parseInt(productToAdd.quantite, 10) +
-            parseInt(produit.quantite, 10), // quantité choisie
+            parseInt(produit.quantite, 10),
         };
       }
       return produit;
