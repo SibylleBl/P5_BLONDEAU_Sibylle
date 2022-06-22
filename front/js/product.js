@@ -58,7 +58,7 @@ function choixCouleur() {
 
 //Récuperer la quantité choisie dans l'input du nombre d'article:
 function choixQuantite() {
-  selectQuant = parseInt(document.getElementById("quantity").value, 10);
+  selectQuant = document.getElementById("quantity").value;
   return selectQuant;
 }
 
@@ -72,7 +72,7 @@ function clickAjoutPanier() {
     couleur: choixCouleur(),
     quantite: choixQuantite(),
     nom: canape.name,
-    prix: parseInt(canape.price, 10),
+    prix: canape.price,
     image: canape.imageUrl,
   };
 

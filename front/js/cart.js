@@ -43,9 +43,11 @@ if (productInLocal.length === 0) {
 <div class="cart__item__content__settings">
    <div class="cart__item__content__settings__quantity">
     <p>Qté : </p>
-    <input type="number" class="itemQuantity" name="itemQuantity" data-id="${
+    <input type="number" class="itemQuantity" data-id="${
       productInLocal[i].id
-    }" data-color="${productInLocal[i].couleur}" min="1" max="100" value="${
+    }" data-color="${
+      productInLocal[i].couleur
+    }" name="itemQuantity" min="1" max="100" value="${
       productInLocal[i].quantite
     }">
   </div>
@@ -76,7 +78,7 @@ function deleteItem() {
       );
 
       localStorage.setItem("produits", JSON.stringify(productInLocal)); // mise à jour du local storage
-      window.location.href = "cart.html"; // permet de recharger la page
+      // window.location.href = "cart.html"; // permet de recharger la page
     });
   }
 }
@@ -86,35 +88,51 @@ deleteItem();
 // // --------------------------- modifier la quantité d'un produit
 
 function modifyQuantity() {
-  let boutons_quantite = document.querySelectorAll(".itemQuantity");
-
-  for (let k = 0; k < boutons_quantite.length; k++) {
-    boutons_quantite[k].addEventListener("click", (e) => {
-      let idToModify = boutons_quantite[k].dataset.id;
-      let colorToModify = boutons_quantite[k].dataset.color;
-
-      //  productInLocal = productInLocal.map((element)=> element.id === idToModify && element.couleur === colorToModify)
-
-      productInLocal = productInLocal.map((element) => {
-        if (element.id === idToModify && element.couleur === colorToModify) {
-          return {
-            ...element,
-            quantite:
-              parseInt(element.quantite, 10) +
-              parseInt(boutons_quantite[k].quantite, 10),
-          };
-        }
-        return element;
-      });
-
-      // je met à jour le local storage
-      localStorage.setItem("produits", JSON.stringify(productInLocal));
-      // window.location.href = "cart.html";
+  let arrayQuantity = document.querySelectorAll(".itemQuantity");
+  console.log("🚀 ~ file: cart.js ~ line 89 ~ arrayQuantite", arrayQuantity);
+  console.log(productInLocal);
+  for (k = 0; k < arrayQuantity.length; k++) {
+    console.log("🚀 ~ file: cart.js ~ line 100 ~ modifyQuantity ~ k", k);
+    arrayQuantity[k].addEventListener("click", (e) => {
+      let idOfLocalProduct = arrayQuantity[k].dataset.id;
+      // let colorOfLocalProduct = arrayQuantity[k].dataset.color;
+      console.log(idOfLocalProduct + " " + colorOfLocalProduct);
     });
   }
 }
-
 modifyQuantity();
+
+// function modifyQuantity() {
+//   let arrayQuantite = document.querySelectorAll(".itemQuantity");
+
+//   for (let k = 0; k < arrayQuantite.length; k++) {
+//     console.log(k);
+//     arrayQuantite[k].addEventListener("click", (e) => {
+//       let idToModify = arrayQuantite[k].dataset.id;
+//       let colorToModify = arrayQuantite[k].dataset.color;
+//       console.log(idToModify + " " + colorToModify);
+
+//       //  productInLocal = productInLocal.map((element)=> element.id === idToModify && element.couleur === colorToModify)
+
+//       productInLocal = productInLocal.map((element) => {
+//         console.log(element);
+//         if (element.id === idToModify && element.couleur === colorToModify) {
+//           return {
+//             ...element,
+//             quantite: element[k] + arrayQuantite[k].value,
+//           };
+//         }
+//         return element;
+//       });
+
+//       // je met à jour le local storage
+//       localStorage.setItem("produits", JSON.stringify(productInLocal));
+//       // window.location.href = "cart.html";
+//     });
+//   }
+// }
+
+// modifyQuantity();
 
 // // ---------------------------- calcul prix et quantités
 // // déclaration de la variable pour pouvoir y mettre les prix et quant qui sont présents dans le panier
@@ -153,7 +171,7 @@ modifyQuantity();
 //   totalQuant.innerHTML = quantTotal;
 // }
 
-// // for (let l = 0; l < boutons_quantite.length; l++) {
+// // for (let l = 0; l < arrayQuantite.length; l++) {
 // //   let allQuant = document.querySelectorAll(".itemQuantity");
 // //   let eachQuant = productInLocal[l].quantite;
 
