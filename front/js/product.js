@@ -3,30 +3,33 @@ let id_article = new URL(window.location.href).searchParams.get("id");
 let url = new URL("http://localhost:3000/api/products.html?id=" + id_article);
 
 function getItemsFromLocalStorage() {
-  let produitPanier = JSON.parse(localStorage.getItem("produit")); // m'affiche le contenu du panier
-  if (produitPanier == null) {
+  let produitsPanier = JSON.parse(localStorage.getItem("produits")); // m'affiche le contenu du panier
+  if (produitsPanier == null) {
     // si mon produit tableau est null, définir produitPanier en tableau
-    produitPanier = []; //création du tableau
+    produitsPanier = []; //création du tableau
   }
-  return produitPanier;
+  return produitsPanier;
 }
 let monTableauProduits = getItemsFromLocalStorage();
 
 function setItemsToLocalStorage(produits) {
-  let envoiProduit = localStorage.setItem("produit", JSON.stringify(produits));
-  return envoiProduit;
+  let envoiProduits = localStorage.setItem(
+    "produits",
+    JSON.stringify(produits)
+  );
+  return envoiProduits;
 }
-
+let canape;
+console.log("🚀 ~ file: product.js ~ line 23 ~ canape", canape);
 fetch(`http://localhost:3000/api/products/${id_article}`)
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
-    const canape = data;
+    canape = data;
 
     const canapePicture = document.getElementsByClassName("item__img");
     canapePicture[0].innerHTML = `<img src="${canape.imageUrl}" alt="${canape.altTxt}"></img>`;
-    localStorage.setItem("imageUrl", canape.imageUrl);
 
     const canapeName = document.getElementById("title");
     canapeName.innerHTML = canape.name;
@@ -59,23 +62,6 @@ function choixQuantite() {
   return selectQuant;
 }
 
-function nameProduct() {
-  selectName = document.getElementById("title").textContent;
-  return selectName;
-}
-
-function priceProduct() {
-  selectPrice = document.getElementById("price").textContent;
-  return selectPrice;
-}
-
-// function pictureProduct() {
-//   let localImgUrl = localStorage.getItem("imageUrl");
-//   let linkImage = document.getElementsByClassName("item_img");
-
-//   return linkImage;
-// }
-
 addToCart = document.getElementById("addToCart");
 addToCart.addEventListener("click", clickAjoutPanier);
 
@@ -85,13 +71,18 @@ function clickAjoutPanier() {
     id: id_article,
     couleur: choixCouleur(),
     quantite: choixQuantite(),
-    nom: nameProduct(),
-    prix: priceProduct(),
-    // image: pictureProduct(),
+    nom: canape.name,
+    prix: canape.price,
+    image: canape.imageUrl,
   };
+
   //fonction qui me dit si un canapé existe déjà dans mon panier:
   function checkProductInCart(productToAdd) {
     let local = getItemsFromLocalStorage(monTableauProduits);
+    console.log(
+      "🚀 ~ file: product.js ~ line 82 ~ checkProductInCart ~ local",
+      local
+    );
     for (let i = 0; i < local.length; i++) {
       if (
         local[i].id === productToAdd.id &&
@@ -106,22 +97,19 @@ function clickAjoutPanier() {
   const isProductInCart = checkProductInCart(productToAdd);
 
   if (isProductInCart) {
-    monTableauProduits = monTableauProduits.map(function (produit) {
+    monTableauProduits = monTableauProduits.map(function (produits) {
       if (
-        produit.id === productToAdd.id &&
-        produit.couleur === productToAdd.couleur
+        produits.id === productToAdd.id &&
+        produits.couleur === productToAdd.couleur
       ) {
         return {
-          id: produit.id,
-          couleur: produit.couleur,
-          nom: produit.nom,
-          prix: produit.prix,
+          ...produits,
           quantite:
             parseInt(productToAdd.quantite, 10) +
-            parseInt(produit.quantite, 10),
+            parseInt(produits.quantite, 10),
         };
       }
-      return produit;
+      return produits;
     });
   } else {
     monTableauProduits.push(productToAdd);
