@@ -20,7 +20,7 @@ function setItemsToLocalStorage(produits) {
   return envoiProduits;
 }
 let canape;
-console.log("🚀 ~ file: product.js ~ line 23 ~ canape", canape);
+
 fetch(`http://localhost:3000/api/products/${id_article}`)
   .then(function (response) {
     return response.json();
@@ -58,7 +58,7 @@ function choixCouleur() {
 
 //Récuperer la quantité choisie dans l'input du nombre d'article:
 function choixQuantite() {
-  selectQuant = document.getElementById("quantity").value;
+  selectQuant = parseInt(document.getElementById("quantity").value, 10);
   return selectQuant;
 }
 
@@ -72,17 +72,14 @@ function clickAjoutPanier() {
     couleur: choixCouleur(),
     quantite: choixQuantite(),
     nom: canape.name,
-    prix: canape.price,
+    prix: parseInt(canape.price, 10),
     image: canape.imageUrl,
   };
 
   //fonction qui me dit si un canapé existe déjà dans mon panier:
   function checkProductInCart(productToAdd) {
     let local = getItemsFromLocalStorage(monTableauProduits);
-    console.log(
-      "🚀 ~ file: product.js ~ line 82 ~ checkProductInCart ~ local",
-      local
-    );
+
     for (let i = 0; i < local.length; i++) {
       if (
         local[i].id === productToAdd.id &&

@@ -74,7 +74,7 @@ function deleteItem() {
         (element) =>
           !(element.id === idToDelete && element.couleur === colorToDelete)
       );
-      productInLocal.push(localStorage);
+
       localStorage.setItem("produits", JSON.stringify(productInLocal)); // mise à jour du local storage
       window.location.href = "cart.html"; // permet de recharger la page
     });
@@ -83,7 +83,7 @@ function deleteItem() {
 
 deleteItem();
 
-// --------------------------- modifier la quantité d'un produit
+// // --------------------------- modifier la quantité d'un produit
 
 function modifyQuantity() {
   let boutons_quantite = document.querySelectorAll(".itemQuantity");
@@ -96,16 +96,12 @@ function modifyQuantity() {
       //  productInLocal = productInLocal.map((element)=> element.id === idToModify && element.couleur === colorToModify)
 
       productInLocal = productInLocal.map((element) => {
-        console.log(
-          "🚀 ~ file: cart.js ~ line 102 ~ productInLocal=productInLocal.map ~ element",
-          element
-        );
         if (element.id === idToModify && element.couleur === colorToModify) {
           return {
             ...element,
             quantite:
               parseInt(element.quantite, 10) +
-              parseInt(boutons_quantite[k].value, 10),
+              parseInt(boutons_quantite[k].quantite, 10),
           };
         }
         return element;
