@@ -120,50 +120,50 @@ function modifyQuantity() {
 }
 modifyQuantity();
 
-// // ---------------------------- calcul prix et quantités
-// // déclaration de la variable pour pouvoir y mettre les prix et quant qui sont présents dans le panier
-// let prixTotalCalcul = [];
-// let quantTotalCalcul = [];
+// ---------------------------- calcul prix et quantités
+// déclaration de la variable pour pouvoir y mettre les prix et quant qui sont présents dans le panier
+let prixTotalCalcul = [];
+let quantTotalCalcul = [];
 
-// for (let l = 0; l < productInLocal.length; l++) {
-//   let prixProduitDansLePanier = parseInt(productInLocal[l].prix);
-//   let quantProduitDansLePanier = parseInt(productInLocal[l].quantite);
+for (let l = 0; l < productInLocal.length; l++) {
+  let prixProduitDansLePanier = parseInt(productInLocal[l].prix);
+  let quantProduitDansLePanier = parseInt(productInLocal[l].quantite);
 
-//   // mettre les prix du panier dans le tableau "prixTotalCalcul" / idem pour quant
-//   prixTotalCalcul.push(prixProduitDansLePanier);
-//   // console.log(
-//   //   "🚀 ~ file: cart.js ~ line 111 ~ prixTotalCalcul",
-//   //   prixTotalCalcul
-//   // );
-//   quantTotalCalcul.push(quantProduitDansLePanier);
-//   // console.log(
-//   //   "🚀 ~ file: cart.js ~ line 112 ~ quantTotalCalcul",
-//   //   quantTotalCalcul
-//   // );
+  // mettre les prix du panier dans le tableau "prixTotalCalcul" / idem pour quant
+  prixTotalCalcul.push(prixProduitDansLePanier);
+  // console.log(
+  //   "🚀 ~ file: cart.js ~ line 111 ~ prixTotalCalcul",
+  //   prixTotalCalcul
+  // );
+  quantTotalCalcul.push(quantProduitDansLePanier);
+  // console.log(
+  //   "🚀 ~ file: cart.js ~ line 112 ~ quantTotalCalcul",
+  //   quantTotalCalcul
+  // );
 
-//   // additionner les prix et les quantités dans les tableaux dédiés avec la méthode reduce
-//   const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  // additionner les prix et les quantités dans les tableaux dédiés avec la méthode reduce
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-//   const prixTotal = prixTotalCalcul.reduce(reducer, 0);
-//   // console.log("🚀 ~ file: cart.js ~ line 125 ~ prixTotal", prixTotal);
-//   const quantTotal = quantTotalCalcul.reduce(reducer, 0);
-//   // console.log("🚀 ~ file: cart.js ~ line 127 ~ quantTotal", quantTotal);
+  const prixTotal = prixTotalCalcul.reduce(reducer, 0);
+  // console.log("🚀 ~ file: cart.js ~ line 125 ~ prixTotal", prixTotal);
+  const quantTotal = quantTotalCalcul.reduce(reducer, 0);
+  // console.log("🚀 ~ file: cart.js ~ line 127 ~ quantTotal", quantTotal);
 
-//   // afficher au bon endroit dans le html
-//   const totalPrice = document.getElementById("totalPrice");
-//   const totalQuant = document.getElementById("totalQuantity");
+  // afficher au bon endroit dans le html
+  const totalPrice = document.getElementById("totalPrice");
+  const totalQuant = document.getElementById("totalQuantity");
 
-//   totalPrice.innerHTML = prixTotal;
-//   totalQuant.innerHTML = quantTotal;
+  totalPrice.innerHTML = prixTotal;
+  totalQuant.innerHTML = quantTotal;
+}
+
+// for (let l = 0; l < arrayQuantite.length; l++) {
+//   let allQuant = document.querySelectorAll(".itemQuantity");
+//   let eachQuant = productInLocal[l].quantite;
+
+//   allQuant.reduce(
+//     (accumulateur, valeurCourante) => accumulateur + valeurCourante;
+//   );
 // }
-
-// // for (let l = 0; l < arrayQuantite.length; l++) {
-// //   let allQuant = document.querySelectorAll(".itemQuantity");
-// //   let eachQuant = productInLocal[l].quantite;
-
-// //   allQuant.reduce(
-// //     (accumulateur, valeurCourante) => accumulateur + valeurCourante;
-// //   );
-// // }
 
 // // ---------------------------- passer la commande
