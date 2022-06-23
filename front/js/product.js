@@ -59,7 +59,7 @@ function choixCouleur() {
 //Récuperer la quantité choisie dans l'input du nombre d'article:
 function choixQuantite() {
   selectQuant = document.getElementById("quantity").value;
-  return selectQuant;
+  return parseInt(selectQuant);
 }
 
 addToCart = document.getElementById("addToCart");
