@@ -78,7 +78,7 @@ function deleteItem() {
       );
 
       localStorage.setItem("produits", JSON.stringify(productInLocal)); // mise à jour du local storage
-      // window.location.href = "cart.html"; // permet de recharger la page
+      window.location.href = "cart.html"; // permet de recharger la page
     });
   }
 }
