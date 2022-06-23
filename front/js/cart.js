@@ -89,50 +89,36 @@ deleteItem();
 
 function modifyQuantity() {
   let arrayQuantity = document.querySelectorAll(".itemQuantity");
-  console.log("🚀 ~ file: cart.js ~ line 89 ~ arrayQuantite", arrayQuantity);
-  console.log(productInLocal);
-  for (k = 0; k < arrayQuantity.length; k++) {
-    console.log("🚀 ~ file: cart.js ~ line 100 ~ modifyQuantity ~ k", k);
+  // console.log("🚀 ~ file: cart.js ~ line 89 ~ arrayQuantite", arrayQuantity);
+  // console.log(productInLocal);
+  for (let k = 0; k < arrayQuantity.length; k++) {
+    // console.log("🚀 ~ file: cart.js ~ line 100 ~ modifyQuantity ~ k", k);
     arrayQuantity[k].addEventListener("click", (e) => {
       let idOfLocalProduct = arrayQuantity[k].dataset.id;
-      // let colorOfLocalProduct = arrayQuantity[k].dataset.color;
-      console.log(idOfLocalProduct + " " + colorOfLocalProduct);
+      let colorOfLocalProduct = arrayQuantity[k].dataset.color;
+      // console.log(idOfLocalProduct + " " + colorOfLocalProduct);
+
+      productInLocal = productInLocal.map((element) => {
+        // console.log(
+        //   "🚀 ~ file: cart.js ~ line 102 ~ productInLocal=productInLocal.map ~ element",
+        //   element
+        // );
+        if (
+          element.id === idOfLocalProduct &&
+          element.couleur === colorOfLocalProduct
+        ) {
+          return {
+            ...element,
+            quantite: parseInt(arrayQuantity[k].value, 10),
+          };
+        }
+        return element;
+      });
+      localStorage.setItem("produits", JSON.stringify(productInLocal));
     });
   }
 }
 modifyQuantity();
-
-// function modifyQuantity() {
-//   let arrayQuantite = document.querySelectorAll(".itemQuantity");
-
-//   for (let k = 0; k < arrayQuantite.length; k++) {
-//     console.log(k);
-//     arrayQuantite[k].addEventListener("click", (e) => {
-//       let idToModify = arrayQuantite[k].dataset.id;
-//       let colorToModify = arrayQuantite[k].dataset.color;
-//       console.log(idToModify + " " + colorToModify);
-
-//       //  productInLocal = productInLocal.map((element)=> element.id === idToModify && element.couleur === colorToModify)
-
-//       productInLocal = productInLocal.map((element) => {
-//         console.log(element);
-//         if (element.id === idToModify && element.couleur === colorToModify) {
-//           return {
-//             ...element,
-//             quantite: element[k] + arrayQuantite[k].value,
-//           };
-//         }
-//         return element;
-//       });
-
-//       // je met à jour le local storage
-//       localStorage.setItem("produits", JSON.stringify(productInLocal));
-//       // window.location.href = "cart.html";
-//     });
-//   }
-// }
-
-// modifyQuantity();
 
 // // ---------------------------- calcul prix et quantités
 // // déclaration de la variable pour pouvoir y mettre les prix et quant qui sont présents dans le panier
