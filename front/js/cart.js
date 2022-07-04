@@ -264,7 +264,8 @@ function validlastName(inputLastName) {
 function sendCommand() {
   const commandButton = document.getElementById("order");
 
-  commandButton.addEventListener("click", function () {
+  commandButton.addEventListener("click", function (e) {
+    e.preventDefault();
     //   création d'un tableau qui stocke les ids des produits sélectionnés par le client
     let arrayId = productInLocal.map((produits) => produits.id);
     //  création d'une variable qui regroupe les informations personnelles du client ainsi que le tableau ci-dessus
@@ -294,8 +295,8 @@ function sendCommand() {
       })
       .then(function (data) {
         console.log(data);
-        localStorage.setItem("orderId", data.orderId);
-        // document.location.href = "confirmation.html";
+        document.location.href =
+          "confirmation.html" + "?commandOrder=" + data.orderId;
       });
   });
 }
