@@ -189,6 +189,17 @@ function validCity(inputCity) {
   }
 }
 
+// const ville = document.getElementById("city");
+// const villeErreur = document.getElementById("cityErrorMsg");
+
+// form.city.addEventListener("change", function () {
+// validMyString(this, ville, villeErreur);
+// });
+
+// function validMyString(inputCity, regexOnMyString, ville, villeErreur) {
+// ..... Je te laisse compléter
+// }
+
 // ---------------------------- adresse
 const adresse = document.getElementById("address");
 const adresseErreur = document.getElementById("addressErrorMsg");
@@ -246,3 +257,47 @@ function validlastName(inputLastName) {
     document.getElementById("lastName").style.backgroundColor = "LightCoral";
   }
 }
+
+// ------------------------ envoyer le panier et les informations clients
+// création d'un event au clic du bouton commander
+
+function sendCommand() {
+  const commandButton = document.getElementById("order");
+
+  commandButton.addEventListener("click", function () {
+    //   création d'un tableau qui stocke les ids des produits sélectionnés par le client
+    let arrayId = productInLocal.map((produits) => produits.id);
+    //  création d'une variable qui regroupe les informations personnelles du client ainsi que le tableau ci-dessus
+    const infoCommande = {
+      contact: {
+        firstName: prenom.value,
+        lastName: nom.value,
+        address: adresse.value,
+        city: ville.value,
+        email: mail.value,
+      },
+      products: arrayId,
+    };
+    console.log("🚀 ~ file: cart.js ~ line 281 ~ infoCommande", infoCommande);
+
+    const optionsFetch = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(infoCommande),
+    };
+
+    fetch("http://localhost:3000/api/products/order", optionsFetch)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        console.log(data);
+        localStorage.setItem("orderId", data.orderId);
+        // document.location.href = "confirmation.html";
+      });
+  });
+}
+
+sendCommand();
