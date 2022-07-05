@@ -110,7 +110,6 @@ function modifyQuantity() {
       });
       setItemsToLocalStorage(productInLocal);
       totalPriceAndQuantity();
-      // window.location.href = "cart.html";
     });
   }
 }
@@ -140,121 +139,66 @@ totalPriceAndQuantity();
 
 let form = document.getElementById("commandForm"); // j'ai rajouté un id au formulaire dans le html
 
-// création des redExp
-const regexFirstAndLastName = new RegExp(/^[a-zA-Z-]/);
+// -------------------------- Définition des RegExp
+
 const regexCityAndAddress = new RegExp(/^[a-zA-Z0-9- ]/);
+const regexFirstAndLastName = new RegExp(/^[a-zA-Z-]/);
 const regexEmail = new RegExp(
   /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/
 );
 
-// ---------------------------------------------email
+// -------------------------- ville
+const ville = document.getElementById("city");
+const villeErreur = document.getElementById("cityErrorMsg");
+
+form.city.addEventListener("change", function () {
+  validRegex(this, regexCityAndAddress, ville, villeErreur);
+});
+
+// -------------------------- Adresse
+
+const adresse = document.getElementById("address");
+const adresseErreur = document.getElementById("addressErrorMsg");
+
+form.address.addEventListener("change", function () {
+  validRegex(this, regexCityAndAddress, adresse, adresseErreur);
+});
+
+// -------------------------- Prénom
+
+const prenom = document.getElementById("firstName");
+const prenomErreur = document.getElementById("firstNameErrorMsg");
+
+form.firstName.addEventListener("change", function () {
+  validRegex(this, regexFirstAndLastName, prenom, prenomErreur);
+});
+
+// -------------------------- Nom
+
+const nom = document.getElementById("lastName");
+const nomErreur = document.getElementById("lastNameErrorMsg");
+
+form.lastName.addEventListener("change", function () {
+  validRegex(this, regexFirstAndLastName, nom, nomErreur);
+});
+
+// -------------------------- Email
 
 const mail = document.getElementById("email");
 const mailErreur = document.getElementById("emailErrorMsg");
 
 form.email.addEventListener("change", function () {
-  validEmail(this);
+  validRegex(this, regexEmail, mail, mailErreur);
 });
 
-function validEmail(inputEmail) {
-  let testEmail = regexEmail.test(inputEmail.value);
-
-  if (testEmail == true) {
-    mailErreur.innerHTML = "";
-    document.getElementById("email").style.backgroundColor = "LightGreen";
+function validRegex(input, regex, element_html, element_error) {
+  let test = regex.test(input.value);
+  if (test == true) {
+    element_error.innerHTML = "";
+    element_html.style.backgroundColor = "LightGreen";
   } else {
-    mailErreur.innerHTML = "Adresse mail non valide";
-    document.getElementById("email").style.backgroundColor = "LightCoral";
-  }
-}
-
-// -------------------------- ville
-
-const ville = document.getElementById("city");
-const villeErreur = document.getElementById("cityErrorMsg");
-
-form.city.addEventListener("change", function () {
-  validCity(this);
-});
-
-function validCity(inputCity) {
-  let testCity = regexCityAndAddress.test(inputCity.value);
-
-  if (testCity == true) {
-    villeErreur.innerHTML = "";
-    document.getElementById("city").style.backgroundColor = "LightGreen";
-  } else {
-    villeErreur.innerHTML = "Ville non valide";
-    document.getElementById("city").style.backgroundColor = "LightCoral";
-  }
-}
-
-// const ville = document.getElementById("city");
-// const villeErreur = document.getElementById("cityErrorMsg");
-
-// form.city.addEventListener("change", function () {
-// validMyString(this, ville, villeErreur);
-// });
-
-// function validMyString(inputCity, regexOnMyString, ville, villeErreur) {
-// ..... Je te laisse compléter
-// }
-
-// ---------------------------- adresse
-const adresse = document.getElementById("address");
-const adresseErreur = document.getElementById("addressErrorMsg");
-
-form.address.addEventListener("change", function () {
-  validAddress(this);
-});
-
-function validAddress(inputAddress) {
-  let testAddress = regexCityAndAddress.test(inputAddress.value);
-
-  if (testAddress == true) {
-    adresseErreur.innerHTML = "";
-    document.getElementById("address").style.backgroundColor = "LightGreen";
-  } else {
-    adresseErreur.innerHTML = "Adresse non valide";
-    document.getElementById("address").style.backgroundColor = "LightCoral";
-  }
-}
-
-// ------------------------- prénom
-const prenom = document.getElementById("firstName");
-const prenomErreur = document.getElementById("firstNameErrorMsg");
-
-form.firstName.addEventListener("change", function () {
-  validFirstName(this);
-});
-
-function validFirstName(inputFirstName) {
-  let testFirstName = regexFirstAndLastName.test(inputFirstName.value);
-  if (testFirstName == true) {
-    prenomErreur.innerHTML = "";
-    document.getElementById("firstName").style.backgroundColor = "LightGreen";
-  } else {
-    prenomErreur.innerHTML = "Prénom non valide";
-    document.getElementById("firstName").style.backgroundColor = "LightCoral";
-  }
-}
-
-// ------------------------ nom
-const nom = document.getElementById("lastName");
-const nomErreur = document.getElementById("lastNameErrorMsg");
-
-form.lastName.addEventListener("change", function () {
-  validlastName(this);
-});
-
-function validlastName(inputLastName) {
-  let testLastName = regexFirstAndLastName.test(inputLastName.value);
-  if (testLastName == true) {
-    nomErreur.innerHTML = "";
-    document.getElementById("lastName").style.backgroundColor = "LightGreen";
-  } else {
-    nomErreur.innerHTML = "Nom non valide";
-    document.getElementById("lastName").style.backgroundColor = "LightCoral";
+    element_error.innerHTML = "champs non valide";
+    element_html.style.backgroundColor = "LightCoral";
   }
 }
 
@@ -279,9 +223,8 @@ function sendCommand() {
       },
       products: arrayId,
     };
-    console.log("🚀 ~ file: cart.js ~ line 281 ~ infoCommande", infoCommande);
 
-    const optionsFetch = {
+    const request = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -289,14 +232,12 @@ function sendCommand() {
       body: JSON.stringify(infoCommande),
     };
 
-    fetch("http://localhost:3000/api/products/order", optionsFetch)
+    fetch("http://localhost:3000/api/products/order", request)
       .then(function (response) {
         return response.json();
       })
       .then(function (data) {
-        console.log(data);
-        document.location.href =
-          "confirmation.html" + "?commandOrder=" + data.orderId;
+        document.location.href = `confirmation.html?commandOrder=${data.orderId}`;
       });
   });
 }

@@ -12,9 +12,9 @@ fetch("http://localhost:3000/api/products/")
 
 // Modèle pour les canapés:
 function addProducts(tableau) {
-  const laoujinjectemonhtml = document.getElementById("items");
+  const items = document.getElementById("items");
   tableau.forEach((canape) => {
-    const moncanapehtml = `<a href="./product.html?id=${canape._id}">
+    const htmlItems = `<a href="./product.html?id=${canape._id}">
     <article>
     <img src="${canape.imageUrl}" alt="${canape.altTxt}">
     <h3 class="productName">${canape.name}</h3>
@@ -22,6 +22,6 @@ function addProducts(tableau) {
     </article>
     </a>`;
 
-    laoujinjectemonhtml.innerHTML += moncanapehtml;
+    items.innerHTML += htmlItems;
   });
 }
