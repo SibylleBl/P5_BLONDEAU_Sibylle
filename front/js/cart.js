@@ -193,7 +193,7 @@ form.email.addEventListener("change", function () {
 
 function validRegex(input, regex, element_html, element_error) {
   let test = regex.test(input.value);
-  if (test == true) {
+  if (test == true && test.value !== "") {
     element_error.innerHTML = "";
     element_html.style.backgroundColor = "LightGreen";
   } else {
