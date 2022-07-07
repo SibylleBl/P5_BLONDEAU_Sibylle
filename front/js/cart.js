@@ -19,7 +19,7 @@ function setItemsToLocalStorage(produits) {
   return envoiProduits;
 }
 
-//----- Si le local Storage, j'affiche un message qui indique au client que son panier est vide:
+//----- Si le local Storage est vide, j'affiche un message qui indique au client que son panier est vide:
 if (productInLocal.length === 0) {
   document.getElementById(
     "cart__items"
@@ -115,7 +115,6 @@ function modifyQuantity() {
 modifyQuantity();
 
 //----- Fonction qui calcule le prix total ainsi que la quantité totale d'articles:
-
 function totalPriceAndQuantity() {
   let totalP = 0;
   let totalQ = 0;
@@ -139,7 +138,6 @@ totalPriceAndQuantity();
 let form = document.getElementById("commandForm");
 
 // -------------------------- Définition des RegExp
-
 const regexCityAndAddress = new RegExp(/^[a-zA-Z0-9- ]/);
 const regexFirstAndLastName = new RegExp(/^[a-zA-Z-]/);
 const regexEmail = new RegExp(
@@ -155,7 +153,6 @@ form.city.addEventListener("change", function () {
 });
 
 // -------------------------- Adresse
-
 const adresse = document.getElementById("address");
 const adresseErreur = document.getElementById("addressErrorMsg");
 
@@ -164,7 +161,6 @@ form.address.addEventListener("change", function () {
 });
 
 // -------------------------- Prénom
-
 const prenom = document.getElementById("firstName");
 const prenomErreur = document.getElementById("firstNameErrorMsg");
 
@@ -173,7 +169,6 @@ form.firstName.addEventListener("change", function () {
 });
 
 // -------------------------- Nom
-
 const nom = document.getElementById("lastName");
 const nomErreur = document.getElementById("lastNameErrorMsg");
 
@@ -182,7 +177,6 @@ form.lastName.addEventListener("change", function () {
 });
 
 // -------------------------- Email
-
 const mail = document.getElementById("email");
 const mailErreur = document.getElementById("emailErrorMsg");
 
@@ -190,6 +184,7 @@ form.email.addEventListener("change", function () {
   validRegex(this, regexEmail, mail, mailErreur);
 });
 
+//----- Fonction qui vérifie si les regex définies plus haut sont respectées:
 function validRegex(input, regex, element_html, element_error) {
   let test = regex.test(input.value);
   if (test == true && test.value !== "") {
@@ -202,7 +197,6 @@ function validRegex(input, regex, element_html, element_error) {
 }
 
 //----- Fonction qui envoie, au clic du bouton commander, les choix du client ainsi que ses informations personnelles:
-
 function sendCommand() {
   const commandButton = document.getElementById("order");
 
