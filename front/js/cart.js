@@ -25,7 +25,7 @@ if (productInLocal.length === 0) {
     "cart__items"
   ).innerHTML += `<p>Votre panier est vide</p>`;
 } else {
-  //----- Sinon, je créé les cartes produits dans le panier:
+  //----- Sinon, je crée les cartes produits dans le panier:
   for (i = 0; i < productInLocal.length; i += 1) {
     document.getElementById("cart__items").innerHTML += `<article id="${
       productInLocal[i].id
