@@ -1,16 +1,16 @@
+//----- Je vais chercher les informations produits dont j'ai besoin via la méthode fetch:
 fetch("http://localhost:3000/api/products/")
   .then(function (response) {
     return response.json();
   })
   .then(function (data) {
     addProducts(data);
-    console.log(data);
-  }) //affiche la liste des produits dans la console
+  })
   .catch(function (erreur) {
     console.log(erreur);
-  }); //message d'erreur
+  });
 
-// Modèle pour les canapés:
+//----- Fonction qui permet de créer toute les cartes produits
 function addProducts(tableau) {
   const items = document.getElementById("items");
   tableau.forEach((canape) => {

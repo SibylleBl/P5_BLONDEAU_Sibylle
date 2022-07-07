@@ -2,16 +2,17 @@ const pagearticle = new URL(window.location.href);
 let id_article = new URL(window.location.href).searchParams.get("id");
 let url = new URL("http://localhost:3000/api/products.html?id=" + id_article);
 
+// ----- Fonction qui me permet de récupérer les éléments dans le local Storage:
 function getItemsFromLocalStorage() {
-  let produitsPanier = JSON.parse(localStorage.getItem("produits")); // m'affiche le contenu du panier
+  let produitsPanier = JSON.parse(localStorage.getItem("produits"));
   if (produitsPanier == null) {
-    // si mon produit tableau est null, définir produitPanier en tableau
-    produitsPanier = []; //création du tableau
+    produitsPanier = [];
   }
   return produitsPanier;
 }
 let monTableauProduits = getItemsFromLocalStorage();
 
+// ----- Fonction qui me permet d'envoyer des éléments dans le local Storage:
 function setItemsToLocalStorage(produits) {
   let envoiProduits = localStorage.setItem(
     "produits",
@@ -21,6 +22,7 @@ function setItemsToLocalStorage(produits) {
 }
 let canape;
 
+// ----- Création dynamique des cartes de produits:
 fetch(`http://localhost:3000/api/products/${id_article}`)
   .then(function (response) {
     return response.json();
@@ -50,13 +52,13 @@ fetch(`http://localhost:3000/api/products/${id_article}`)
     selectColors.innerHTML += optionsdecouleurs;
   });
 
-//Récuperer la valeur choisie dans le sélecteur des couleurs:
+//----- Récuperer la valeur choisie dans le sélecteur des couleurs:
 function choixCouleur() {
   selectColor = document.getElementById("colors").value;
   return selectColor;
 }
 
-//Récuperer la quantité choisie dans l'input du nombre d'article:
+//----- Récuperer la quantité choisie dans l'input du nombre d'article:
 function choixQuantite() {
   selectQuant = document.getElementById("quantity").value;
   return parseInt(selectQuant, 10);
@@ -65,7 +67,7 @@ function choixQuantite() {
 addToCart = document.getElementById("addToCart");
 addToCart.addEventListener("click", clickAjoutPanier);
 
-// je regroupe les différents choix du client au même endroit:
+//----- Fonction dans laquelle je regroupe la description des produits en fonction des choix du client:
 function clickAjoutPanier() {
   const productToAdd = {
     id: id_article,
@@ -76,7 +78,7 @@ function clickAjoutPanier() {
     image: canape.imageUrl,
   };
 
-  //fonction qui me dit si un canapé existe déjà dans mon panier:
+  //----- Fonction qui va vérifier si un canapé existe déjà dans mon local Storage:
   function checkProductInCart(productToAdd) {
     let local = getItemsFromLocalStorage(monTableauProduits);
 
@@ -93,6 +95,7 @@ function clickAjoutPanier() {
 
   const isProductInCart = checkProductInCart(productToAdd);
 
+  //----- Si ce produit existe déjà, je modifie la quantité de ce produit:
   if (isProductInCart) {
     monTableauProduits = monTableauProduits.map(function (produits) {
       if (
@@ -108,6 +111,7 @@ function clickAjoutPanier() {
       }
       return produits;
     });
+    //----- Sinon, j'ajoute un nouveau produit dans le local Storage:
   } else {
     monTableauProduits.push(productToAdd);
   }

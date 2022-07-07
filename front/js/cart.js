@@ -1,15 +1,16 @@
 let productInLocal = JSON.parse(localStorage.getItem("produits"));
 
+// ----- Fonction qui me permet de récupérer les éléments dans le local Storage:
 function getItemsFromLocalStorage() {
-  let produitsPanier = JSON.parse(localStorage.getItem("produits")); // m'affiche le contenu du panier
+  let produitsPanier = JSON.parse(localStorage.getItem("produits"));
   if (produitsPanier == null) {
-    // si mon produit tableau est null, définir produitPanier en tableau
-    produitsPanier = []; //création du tableau
+    produitsPanier = [];
   }
   return produitsPanier;
 }
 let monTableauProduits = getItemsFromLocalStorage();
 
+// ----- Fonction qui me permet d'envoyer des éléments dans le local Storage:
 function setItemsToLocalStorage(produits) {
   let envoiProduits = localStorage.setItem(
     "produits",
@@ -18,13 +19,13 @@ function setItemsToLocalStorage(produits) {
   return envoiProduits;
 }
 
-// si le panier est vide
+//----- Si le local Storage, j'affiche un message qui indique au client que son panier est vide:
 if (productInLocal.length === 0) {
   document.getElementById(
     "cart__items"
   ).innerHTML += `<p>Votre panier est vide</p>`;
 } else {
-  //sinon création de la carte produit
+  //----- Sinon, je créé les cartes produits dans le panier:
   for (i = 0; i < productInLocal.length; i += 1) {
     document.getElementById("cart__items").innerHTML += `<article id="${
       productInLocal[i].id
@@ -62,13 +63,12 @@ if (productInLocal.length === 0) {
   }
 }
 
-// ---------------------------- gestion du bouton supprimer l'article
+//----- Fonction qui permet de supprimer un article dans le panier et le local Storage:
 function deleteItem() {
-  let boutons_supprimer = document.querySelectorAll(".deleteItem"); // crée un tableau
+  let boutons_supprimer = document.querySelectorAll(".deleteItem");
 
   for (let j = 0; j < boutons_supprimer.length; j++) {
     boutons_supprimer[j].addEventListener("click", function e() {
-      // je récupère l'id et la couleur du produit à supprimer (où je clique)
       let idToDelete = this.dataset.id;
       let colorToDelete = this.dataset.color;
 
@@ -86,8 +86,7 @@ function deleteItem() {
 
 deleteItem();
 
-// // --------------------------- modifier la quantité d'un produit
-
+//----- Fonction qui permet de modifier la quantité d'un article:
 function modifyQuantity() {
   let arrayQuantity = document.querySelectorAll(".itemQuantity");
 
@@ -115,7 +114,7 @@ function modifyQuantity() {
 }
 modifyQuantity();
 
-// ---------------------------- calcul prix et quantités
+//----- Fonction qui calcule le prix total ainsi que la quantité totale d'articles:
 
 function totalPriceAndQuantity() {
   let totalP = 0;
@@ -135,9 +134,9 @@ function totalPriceAndQuantity() {
 }
 totalPriceAndQuantity();
 
-// // ---------------------------- passer la commande
+//----- Définition de condition à respecter lorsque le client rempli ses informations personnelles:
 
-let form = document.getElementById("commandForm"); // j'ai rajouté un id au formulaire dans le html
+let form = document.getElementById("commandForm");
 
 // -------------------------- Définition des RegExp
 
@@ -202,17 +201,16 @@ function validRegex(input, regex, element_html, element_error) {
   }
 }
 
-// ------------------------ envoyer le panier et les informations clients
-// création d'un event au clic du bouton commander
+//----- Fonction qui envoie, au clic du bouton commander, les choix du client ainsi que ses informations personnelles:
 
 function sendCommand() {
   const commandButton = document.getElementById("order");
 
   commandButton.addEventListener("click", function (e) {
     e.preventDefault();
-    //   création d'un tableau qui stocke les ids des produits sélectionnés par le client
+
     let arrayId = productInLocal.map((produits) => produits.id);
-    //  création d'une variable qui regroupe les informations personnelles du client ainsi que le tableau ci-dessus
+
     const infoCommande = {
       contact: {
         firstName: prenom.value,
@@ -224,6 +222,7 @@ function sendCommand() {
       products: arrayId,
     };
 
+    // --------------------------  Envoi des données via l'API fetch avec la méthode POST:
     const request = {
       method: "POST",
       headers: {
